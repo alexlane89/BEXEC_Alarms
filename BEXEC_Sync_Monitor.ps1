@@ -11,6 +11,7 @@ $Fail_Count = 0
 $Fail_PCT = 20
 $result = 0
 $status = 0
+$output_path = 'D:\DeltaV\DVData\BEXEC_PS_Tests\SYNC_STATUS.txt'
 
 #Do Until Loop for comparison of file parameters over a time range
 Do
@@ -53,7 +54,6 @@ if ($BAD_SYNC_PCT -lt $Fail_PCT)
 }
 
 #Write Result (1/0, Pass/Fail), Bad Sync percentage, and error status to text file
-$output_path = 'D:\DeltaV\DVData\BEXEC_PS_Tests\SYNC_STATUS.txt'
 
 "{0},{1},{2}" -f 'LSM_BEXECSYNC_RESULT', $TimeEnd, $result |
     Out-File $output_path -Encoding ascii
