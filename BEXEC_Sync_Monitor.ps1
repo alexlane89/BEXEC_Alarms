@@ -1,8 +1,8 @@
 $path = 'd$\DeltaV\DVData\Batch\BMPersist'
 $TimeStart = Get-Date
 $TimeEnd = $TimeStart.AddMinutes(1)
-$P_Server = (Get-Content -Path 'D:\DeltaV\DVData\BEXEC_PS_Tests\Server_Names.data' -TotalCount 1)
-$R_Server = (Get-Content -Path 'D:\DeltaV\DVData\BEXEC_PS_Tests\Server_Names.data' -Tail 1)
+$P_Server = (Get-Content -Path 'D:\DeltaV\DVData\BEXEC_Sync_Mon\Server_Names.data' -TotalCount 1)
+$R_Server = (Get-Content -Path 'D:\DeltaV\DVData\BEXEC_Sync_Mon\Server_Names.data' -TotalCount 2)[-1]
 $P_SUM_Array = @()
 $R_SUM_Array = @()
 $P_COUNT_Array = @()
@@ -11,7 +11,8 @@ $Fail_Count = 0
 $Fail_PCT = 20
 $result = 0
 $status = 0
-$output_path = 'D:\DeltaV\DVData\BEXEC_PS_Tests\SYNC_STATUS.txt'
+$loc = (Get-Content -Path 'D:\DeltaV\DVData\BEXEC_Sync_Mon\Server_Names.data' -TotalCount 3)[-1]
+$output_path = 'D:\DeltaV\DVData\BEXEC_Sync_Mon\UFL_Output\SYNC_STATUS.txt'
 
 #Do Until Loop for comparison of file parameters over a time range
 Do
@@ -55,11 +56,11 @@ if ($BAD_SYNC_PCT -lt $Fail_PCT)
 
 #Write Result (1/0, Pass/Fail), Bad Sync percentage, and error status to text file
 
-"{0},{1},{2}" -f 'LSM_BEXECSYNC_RESULT', $TimeEnd, $result |
+"{0},{1},{2}" -f ($loc + '_BEXECSYNC_RESULT'), $TimeEnd, $result |
     Out-File $output_path -Encoding ascii
 
-"{0},{1},{2}" -f 'LSM_BEX_BADSYNC_PCT', $TimeEnd, $BAD_SYNC_PCT |
+"{0},{1},{2}" -f ($loc + '_BEX_BADSYNC_PCT'), $TimeEnd, $BAD_SYNC_PCT |
     Out-File -Append $output_path -Encoding ascii
 
-"{0},{1},{2}" -f 'LSM_MON_STATUS', $TimeEnd, $status |
+"{0},{1},{2}" -f ($loc + '_MON_STATUS'), $TimeEnd, $status |
     Out-File -Append $output_path -Encoding ascii
